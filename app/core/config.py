@@ -474,8 +474,14 @@ class Settings(BaseSettings, ConfigModel):
         raise ValueError(f"配置项 '{self.DB_TYPE}' 的值 '{self.DB_TYPE.lower()}' 无效")
 
     @property
-    def SQL_ARGS(self):
-        return {}
+    def CONNECT_ARGS(self):
+        connect_args={}
+        if self.DB_TYPE.lower() == "sqlite":
+            connect_args["connect_args"] = settings.DB_TIMEOUT
+            # 启用 WAL 模式时的额外配置
+            if settings.DB_WAL_ENABLE:
+                connect_args["check_same_thread"] = False
+        return connect_args
 
     @property
     def ROOT_PATH(self):

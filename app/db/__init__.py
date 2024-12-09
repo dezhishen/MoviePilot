@@ -7,19 +7,14 @@ from app.core.config import settings
 
 # 根据池类型设置 poolclass 和相关参数
 pool_class = NullPool if settings.DB_POOL_TYPE == "NullPool" else QueuePool
-connect_args = {
-    "timeout": settings.DB_TIMEOUT
-}
-# 启用 WAL 模式时的额外配置
-if settings.DB_WAL_ENABLE:
-    connect_args["check_same_thread"] = False
+
 kwargs = {
     "url": settings.SQL_DSN,
     "pool_pre_ping": settings.DB_POOL_PRE_PING,
     "echo": settings.DB_ECHO,
     "poolclass": pool_class,
     "pool_recycle": settings.DB_POOL_RECYCLE,
-    "connect_args": connect_args
+    "connect_args": settings.CONNECT_ARGS
 }
 # 当使用 QueuePool 时，添加 QueuePool 特有的参数
 if pool_class == QueuePool:
