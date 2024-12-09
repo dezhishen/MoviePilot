@@ -474,7 +474,7 @@ class Settings(BaseSettings, ConfigModel):
         raise ValueError(f"配置项 '{self.DB_TYPE}' 的值 '{self.DB_TYPE.lower()}' 无效")
 
     @property
-    def CONNECT_ARGS(self):
+    def DB_CONNECT_ARGS(self):
         connect_args={}
         if self.DB_TYPE.lower() == "sqlite":
             connect_args["connect_args"] = settings.DB_TIMEOUT

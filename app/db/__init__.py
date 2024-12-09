@@ -14,7 +14,7 @@ kwargs = {
     "echo": settings.DB_ECHO,
     "poolclass": pool_class,
     "pool_recycle": settings.DB_POOL_RECYCLE,
-    "connect_args": settings.CONNECT_ARGS
+    "connect_args": settings.DB_CONNECT_ARGS
 }
 # 当使用 QueuePool 时，添加 QueuePool 特有的参数
 if pool_class == QueuePool:
