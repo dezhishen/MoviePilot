@@ -28,9 +28,9 @@ Engine = create_engine(**kwargs)
 # 根据配置设置日志模式
 if settings.DB_TYPE.lower()=="sqlite":
     journal_mode = "WAL" if settings.DB_WAL_ENABLE else "DELETE"
-with Engine.connect() as connection:
-    current_mode = connection.execute(text(f"PRAGMA journal_mode={journal_mode};")).scalar()
-    print(f"Database journal mode set to: {current_mode}")
+    with Engine.connect() as connection:
+        current_mode = connection.execute(text(f"PRAGMA journal_mode={journal_mode};")).scalar()
+        print(f"Database journal mode set to: {current_mode}")
 
 # 会话工厂
 SessionFactory = sessionmaker(bind=Engine)
