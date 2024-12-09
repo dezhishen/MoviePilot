@@ -14,7 +14,7 @@ connect_args = {
 if settings.DB_WAL_ENABLE:
     connect_args["check_same_thread"] = False
 kwargs = {
-    "url": f"sqlite:///{settings.CONFIG_PATH}/user.db",
+    "url": settings.SQL_DSN,
     "pool_pre_ping": settings.DB_POOL_PRE_PING,
     "echo": settings.DB_ECHO,
     "poolclass": pool_class,
