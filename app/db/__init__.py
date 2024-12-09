@@ -26,7 +26,8 @@ if pool_class == QueuePool:
 # 创建数据库引擎
 Engine = create_engine(**kwargs)
 # 根据配置设置日志模式
-journal_mode = "WAL" if settings.DB_WAL_ENABLE else "DELETE"
+if settings.DB_TYPE.lower()=="sqlite":
+    journal_mode = "WAL" if settings.DB_WAL_ENABLE else "DELETE"
 with Engine.connect() as connection:
     current_mode = connection.execute(text(f"PRAGMA journal_mode={journal_mode};")).scalar()
     print(f"Database journal mode set to: {current_mode}")
