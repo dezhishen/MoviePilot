@@ -461,6 +461,7 @@ class Settings(BaseSettings, ConfigModel):
 
     @property
     def SQL_DSN(self):
+        logger.info(f"use db type:{self.DB_TYPE}")
         # 如果是 sqlite...
         if self.DB_TYPE.lower() == "sqlite":
             return f"sqlite:///{settings.CONFIG_PATH}/user.db"
@@ -469,13 +470,13 @@ class Settings(BaseSettings, ConfigModel):
                 raise ValueError("数据库用户名为空")
             if self.DB_PASSWORD is None:
                 raise ValueError("数据库密码为空")
-            return f"mysql://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+            return f"mysql+pymysql://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         raise ValueError(f"配置项 '{self.DB_TYPE}' 的值 '{self.DB_TYPE.lower()}' 无效")
-    
+
     @property
     def SQL_ARGS(self):
         return {}
-    
+
     @property
     def ROOT_PATH(self):
         return Path(__file__).parents[2]
