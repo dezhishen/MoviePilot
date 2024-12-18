@@ -1,6 +1,6 @@
 import time
 
-from sqlalchemy import Column, Integer, String, Sequence, Boolean, func, or_, JSON
+from sqlalchemy import Column, Integer, String, Sequence, Boolean, func, or_, JSON, Text
 from sqlalchemy.orm import Session
 
 from app.db import db_query, db_update, Base
@@ -12,45 +12,45 @@ class TransferHistory(Base):
     """
     id = Column(Integer, Sequence('id'), primary_key=True, index=True)
     # 源路径
-    src = Column(String, index=True)
+    src = Column(String(255), index=True)
     # 源存储
-    src_storage = Column(String)
+    src_storage = Column(String(255))
     # 源文件项
     src_fileitem = Column(JSON, default=dict)
     # 目标路径
-    dest = Column(String)
+    dest = Column(String(255))
     # 目标存储
-    dest_storage = Column(String)
+    dest_storage = Column(String(255))
     # 目标文件项
     dest_fileitem = Column(JSON, default=dict)
     # 转移模式 move/copy/link...
-    mode = Column(String)
+    mode = Column(String(40))
     # 类型 电影/电视剧
-    type = Column(String)
+    type = Column(String(40))
     # 二级分类
-    category = Column(String)
+    category = Column(String(40))
     # 标题
-    title = Column(String, index=True)
+    title = Column(String(255), index=True)
     # 年份
-    year = Column(String)
+    year = Column(String(40))
     tmdbid = Column(Integer, index=True)
-    imdbid = Column(String)
+    imdbid = Column(String(255))
     tvdbid = Column(Integer)
-    doubanid = Column(String)
+    doubanid = Column(String(255))
     # Sxx
-    seasons = Column(String)
+    seasons = Column(String(40))
     # Exx
-    episodes = Column(String)
+    episodes = Column(String(40))
     # 海报
-    image = Column(String)
+    image = Column(Text)
     # 下载器hash
-    download_hash = Column(String, index=True)
+    download_hash = Column(String(255), index=True)
     # 转移成功状态
     status = Column(Boolean(), default=True)
     # 转移失败信息
-    errmsg = Column(String)
+    errmsg = Column(Text)
     # 时间
-    date = Column(String, index=True)
+    date = Column(String(40), index=True)
     # 文件清单，以JSON存储
     files = Column(JSON, default=list)
 
