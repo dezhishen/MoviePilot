@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Sequence
+from sqlalchemy import Column, Integer, String, Sequence, Text
 from sqlalchemy.orm import Session
 
 from app.db import db_query, Base
@@ -10,13 +10,13 @@ class SiteIcon(Base):
     """
     id = Column(Integer, Sequence('id'), primary_key=True, index=True)
     # 站点名称
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
     # 域名Key
-    domain = Column(String, index=True)
+    domain = Column(String(255), index=True)
     # 图标地址
-    url = Column(String, nullable=False)
+    url = Column(String(255), nullable=False)
     # 图标Base64
-    base64 = Column(String)
+    base64 = Column(Text)
 
     @staticmethod
     @db_query

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Sequence, Float, JSON
+from sqlalchemy import Column, Integer, String, Sequence, Float, JSON, Text
 from sqlalchemy.orm import Session
 
 from app.db import db_query, Base
@@ -10,60 +10,60 @@ class SubscribeHistory(Base):
     """
     id = Column(Integer, Sequence('id'), primary_key=True, index=True)
     # 标题
-    name = Column(String, nullable=False, index=True)
+    name = Column(String(255), nullable=False, index=True)
     # 年份
-    year = Column(String)
+    year = Column(String(40))
     # 类型
-    type = Column(String)
+    type = Column(String(40))
     # 搜索关键字
-    keyword = Column(String)
+    keyword = Column(String(255))
     tmdbid = Column(Integer, index=True)
-    imdbid = Column(String)
+    imdbid = Column(String(255))
     tvdbid = Column(Integer)
-    doubanid = Column(String, index=True)
+    doubanid = Column(String(255), index=True)
     bangumiid = Column(Integer, index=True)
     # 季号
     season = Column(Integer)
     # 海报
-    poster = Column(String)
+    poster = Column(Text)
     # 背景图
-    backdrop = Column(String)
+    backdrop = Column(Text)
     # 评分，float
     vote = Column(Float)
     # 简介
-    description = Column(String)
+    description = Column(Text)
     # 过滤规则
-    filter = Column(String)
+    filter = Column(String(255))
     # 包含
-    include = Column(String)
+    include = Column(String(255))
     # 排除
-    exclude = Column(String)
+    exclude = Column(String(255))
     # 质量
-    quality = Column(String)
+    quality = Column(String(255))
     # 分辨率
-    resolution = Column(String)
+    resolution = Column(String(255))
     # 特效
-    effect = Column(String)
+    effect = Column(String(255))
     # 总集数
     total_episode = Column(Integer)
     # 开始集数
     start_episode = Column(Integer)
     # 订阅完成时间
-    date = Column(String)
+    date = Column(String(40))
     # 订阅用户
-    username = Column(String)
+    username = Column(String(255))
     # 订阅站点
     sites = Column(JSON)
     # 是否洗版
     best_version = Column(Integer, default=0)
     # 保存路径
-    save_path = Column(String)
+    save_path = Column(String(255))
     # 是否使用 imdbid 搜索
     search_imdbid = Column(Integer, default=0)
     # 自定义识别词
-    custom_words = Column(String)
+    custom_words = Column(String(255))
     # 自定义媒体类别
-    media_category = Column(String)
+    media_category = Column(String(255))
     # 过滤规则组
     filter_groups = Column(JSON, default=list)
 

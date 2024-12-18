@@ -71,6 +71,18 @@ class ConfigModel(BaseModel):
     DB_TIMEOUT: int = 60
     # SQLite 是否启用 WAL 模式，默认关闭
     DB_WAL_ENABLE: bool = False
+    # 数据库类型
+    DB_TYPE: str = "sqlite"
+    # 数据库host
+    DB_HOST: str = None
+    # 数据库端口
+    DB_PORT: int = 3306
+    # 数据库用户名
+    DB_USERNAME: str = "moviepilot"
+    # 数据库密码
+    DB_PASSWORD: Optional[str] = None
+    # 数据库库名
+    DB_NAME: str = "moviepilot"
     # 配置文件目录
     CONFIG_DIR: Optional[str] = None
     # 超级管理员
@@ -446,6 +458,30 @@ class Settings(BaseSettings, ConfigModel):
     @property
     def CACHE_PATH(self):
         return self.CONFIG_PATH / "cache"
+
+    @property
+    def SQL_DSN(self):
+        logger.info(f"use db type:{self.DB_TYPE}")
+        # 如果是 sqlite...
+        if self.DB_TYPE.lower() == "sqlite":
+            return f"sqlite:///{settings.CONFIG_PATH}/user.db"
+        if self.DB_TYPE.lower() == "mysql":
+            if self.DB_USERNAME is None:
+                raise ValueError("数据库用户名为空")
+            if self.DB_PASSWORD is None:
+                raise ValueError("数据库密码为空")
+            return f"mysql+pymysql://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        raise ValueError(f"配置项 '{self.DB_TYPE}' 的值 '{self.DB_TYPE.lower()}' 无效")
+
+    @property
+    def DB_CONNECT_ARGS(self):
+        connect_args={}
+        if self.DB_TYPE.lower() == "sqlite":
+            connect_args["connect_args"] = settings.DB_TIMEOUT
+            # 启用 WAL 模式时的额外配置
+            if settings.DB_WAL_ENABLE:
+                connect_args["check_same_thread"] = False
+        return connect_args
 
     @property
     def ROOT_PATH(self):
